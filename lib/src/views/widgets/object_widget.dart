@@ -241,17 +241,11 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                               }
                                               return Container(
                                                 decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.white,
-                                                        width:
-                                                            selectedBorderWidth),
-                                                    boxShadow: [
-                                                      BorderBoxShadow(
-                                                        color: Colors.black,
-                                                        blurRadius:
-                                                            selectedBlurRadius,
-                                                      )
-                                                    ]),
+                                                  border: Border.all(
+                                                    color: Colors.white,
+                                                    width: selectedBorderWidth,
+                                                  ),
+                                                ),
                                               );
                                             },
                                           ),
@@ -268,22 +262,14 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                               cursor: SystemMouseCursors
                                                   .resizeUpLeft,
                                               child: GestureDetector(
-                                                onPanStart: (details) =>
-                                                    onScaleControlPanStart(
-                                                        0, entry, details),
-                                                onPanUpdate: (details) =>
-                                                    onScaleControlPanUpdate(
-                                                        entry,
-                                                        details,
-                                                        constraints,
-                                                        true),
-                                                onPanEnd: (details) =>
-                                                    onScaleControlPanEnd(
-                                                        0, entry, details),
-                                                child: _ObjectControlBox(
-                                                  active:
-                                                      controlsAreActive[0] ??
-                                                          false,
+                                                onTap: () {
+                                                  controller?.removeDrawable(
+                                                    drawable,
+                                                  );
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
@@ -301,7 +287,7 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                               child: GestureDetector(
                                                 onPanStart: (details) =>
                                                     onScaleControlPanStart(
-                                                        1, entry, details),
+                                                        0, entry, details),
                                                 onPanUpdate: (details) =>
                                                     onScaleControlPanUpdate(
                                                         entry,
@@ -310,11 +296,10 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                                         true),
                                                 onPanEnd: (details) =>
                                                     onScaleControlPanEnd(
-                                                        1, entry, details),
-                                                child: _ObjectControlBox(
-                                                  active:
-                                                      controlsAreActive[1] ??
-                                                          false,
+                                                        0, entry, details),
+                                                child: const Icon(
+                                                  Icons.zoom_out_map_outlined,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
@@ -340,11 +325,9 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                                 onPanEnd: (details) =>
                                                     onRotationControlPanEnd(
                                                         2, entry, details),
-                                                child: _ObjectControlBox(
-                                                  shape: BoxShape.circle,
-                                                  active:
-                                                      controlsAreActive[2] ??
-                                                          false,
+                                                child: const Icon(
+                                                  Icons.rotate_left_sharp,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
@@ -372,10 +355,9 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                                 onPanEnd: (details) =>
                                                     onScaleControlPanEnd(
                                                         3, entry, details),
-                                                child: _ObjectControlBox(
-                                                  active:
-                                                      controlsAreActive[3] ??
-                                                          false,
+                                                child: const Icon(
+                                                  Icons.zoom_out_map_outlined,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
