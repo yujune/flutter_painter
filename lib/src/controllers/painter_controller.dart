@@ -77,8 +77,8 @@ class PainterController extends ValueNotifier<PainterControllerValue> {
   /// that they need to update (it calls [notifyListeners]). For this reason,
   /// this value should only be set between frames, e.g. in response to user
   /// actions, not during the build, layout, or paint phases.
-  set background(BackgroundDrawable? background) =>
-      value = value.copyWith(background: background);
+  // set background(BackgroundDrawable? background) =>
+  //     value = value.copyWith(background: background);
 
   /// Queues used to track the actions performed on drawables in the controller.
   /// This is used to [undo] and [redo] actions.
