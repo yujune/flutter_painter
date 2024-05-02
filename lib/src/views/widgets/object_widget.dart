@@ -388,10 +388,9 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                                 onPanEnd: (details) =>
                                                     onResizeControlPanEnd(
                                                         4, entry, details),
-                                                child: _ObjectControlBox(
-                                                  active:
-                                                      controlsAreActive[4] ??
-                                                          false,
+                                                child: const Icon(
+                                                  Icons.arrow_upward_rounded,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
@@ -421,10 +420,9 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                                 onPanEnd: (details) =>
                                                     onResizeControlPanEnd(
                                                         5, entry, details),
-                                                child: _ObjectControlBox(
-                                                  active:
-                                                      controlsAreActive[5] ??
-                                                          false,
+                                                child: const Icon(
+                                                  Icons.arrow_downward_rounded,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
@@ -454,10 +452,9 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                                 onPanEnd: (details) =>
                                                     onResizeControlPanEnd(
                                                         6, entry, details),
-                                                child: _ObjectControlBox(
-                                                  active:
-                                                      controlsAreActive[6] ??
-                                                          false,
+                                                child: const Icon(
+                                                  Icons.arrow_back_rounded,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
@@ -487,10 +484,9 @@ class _ObjectWidgetState extends State<_ObjectWidget> {
                                                 onPanEnd: (details) =>
                                                     onResizeControlPanEnd(
                                                         7, entry, details),
-                                                child: _ObjectControlBox(
-                                                  active:
-                                                      controlsAreActive[7] ??
-                                                          false,
+                                                child: const Icon(
+                                                  Icons.arrow_forward_rounded,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
