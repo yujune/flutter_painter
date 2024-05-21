@@ -259,6 +259,7 @@ class EditTextWidgetState extends State<EditTextWidget>
               textAlign: TextAlign.center,
               textAlignVertical: TextAlignVertical.center,
               onEditingComplete: onEditingComplete,
+              textInputAction: TextInputAction.done,
             ),
           ),
         ),
