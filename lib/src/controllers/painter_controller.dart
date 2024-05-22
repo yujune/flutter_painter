@@ -4,17 +4,15 @@ import 'dart:ui' as ui;
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'events/selected_object_drawable_removed_event.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_painter/flutter_painter.dart';
+import 'package:flutter_painter/src/controllers/actions/replace_background_action.dart';
+
+import '../views/painters/painter.dart';
 import '../views/widgets/painter_controller_widget.dart';
 import 'actions/actions.dart';
-import 'drawables/image_drawable.dart';
 import 'events/events.dart';
-import 'drawables/background/background_drawable.dart';
-import 'drawables/object_drawable.dart';
-import 'settings/settings.dart';
-import '../views/painters/painter.dart';
-
-import 'drawables/drawable.dart';
+import 'events/selected_object_drawable_removed_event.dart';
 
 /// Controller used to control a [FlutterPainter] widget.
 ///
@@ -366,6 +364,50 @@ class PainterController extends ValueNotifier<PainterControllerValue> {
       _eventsSteamController.add(const SelectedObjectDrawableRemovedEvent());
     }
     selectObjectDrawable(null);
+  }
+
+  void setBackgroundBlurRadius(double blurRadius) {
+    if (value.background is! ImageBackgroundDrawable) {
+      return;
+    }
+
+    final oldImageBackgroundDrawable = value.background;
+
+    final newImageBackgroundDrawable =
+        (value.background as ImageBackgroundDrawable).copyWith(
+      blurRadius: blurRadius,
+    );
+
+    final action = ReplaceBackgroundDrawableAction(
+      oldImageBackgroundDrawable,
+      newImageBackgroundDrawable,
+    );
+
+    action.perform(this);
+
+    _addAction(action, true);
+  }
+
+  void setBackgroundColorFilter(ColorFilter? colorFilter) {
+    if (value.background is! ImageBackgroundDrawable) {
+      return;
+    }
+
+    final oldImageBackgroundDrawable = value.background;
+
+    final newImageBackgroundDrawable =
+        (value.background as ImageBackgroundDrawable).copyWith(
+      colorFilter: colorFilter,
+    );
+
+    final action = ReplaceBackgroundDrawableAction(
+      oldImageBackgroundDrawable,
+      newImageBackgroundDrawable,
+    );
+
+    action.perform(this);
+
+    _addAction(action, true);
   }
 }
 

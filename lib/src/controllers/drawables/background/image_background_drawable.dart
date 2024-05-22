@@ -12,10 +12,16 @@ class ImageBackgroundDrawable extends BackgroundDrawable {
 
   final double? aspectRatio;
 
+  final double blurRadius;
+
+  final ColorFilter? colorFilter;
+
   /// Creates a [ImageBackgroundDrawable] to use an image as a background.
   const ImageBackgroundDrawable({
     required this.image,
     this.aspectRatio,
+    this.blurRadius = 0,
+    this.colorFilter,
   });
 
   double get imageWidth => image.width.toDouble();
@@ -72,7 +78,12 @@ class ImageBackgroundDrawable extends BackgroundDrawable {
       image,
       imageRect,
       Rect.fromPoints(Offset.zero, Offset(size.width, size.height)),
-      Paint(),
+      Paint()
+        ..imageFilter = ImageFilter.blur(
+          sigmaX: blurRadius,
+          sigmaY: blurRadius,
+        )
+        ..colorFilter = colorFilter,
     );
   }
 
@@ -84,6 +95,20 @@ class ImageBackgroundDrawable extends BackgroundDrawable {
   //
   // @override
   // int get hashCode => image.hashCode;
+
+  ImageBackgroundDrawable copyWith({
+    Image? image,
+    double? aspectRatio,
+    double? blurRadius,
+    ColorFilter? colorFilter,
+  }) {
+    return ImageBackgroundDrawable(
+      image: image ?? this.image,
+      aspectRatio: aspectRatio ?? this.aspectRatio,
+      blurRadius: blurRadius ?? this.blurRadius,
+      colorFilter: colorFilter ?? this.colorFilter,
+    );
+  }
 }
 
 /// An extension on ui.Image to create a background drawable easily.
