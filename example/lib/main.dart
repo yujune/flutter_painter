@@ -1,9 +1,8 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_painter/flutter_painter.dart';
-
-import 'dart:ui' as ui;
-
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 void main() => runApp(const MyApp());
@@ -104,7 +103,7 @@ class _FlutterPainterExampleState extends State<FlutterPainterExample> {
 
     setState(() {
       backgroundImage = image;
-      controller.background = image.backgroundDrawable;
+      controller.background = image.backgroundDrawable();
     });
   }
 
