@@ -24,4 +24,13 @@ class RectangleFactory extends ShapeFactory<RectangleDrawable> {
     }
     return RectangleDrawable(size: Size.zero, position: position, paint: paint);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is RectangleFactory;
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 }

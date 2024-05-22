@@ -20,4 +20,13 @@ class ArrowFactory extends ShapeFactory<ArrowDrawable> {
         paint: paint,
         arrowHeadSize: arrowHeadSize);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ArrowFactory;
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 }

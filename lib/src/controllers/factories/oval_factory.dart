@@ -13,4 +13,13 @@ class OvalFactory extends ShapeFactory<OvalDrawable> {
   OvalDrawable create(Offset position, [Paint? paint]) {
     return OvalDrawable(size: Size.zero, position: position, paint: paint);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is OvalFactory;
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 }

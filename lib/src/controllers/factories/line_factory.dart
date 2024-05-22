@@ -13,4 +13,13 @@ class LineFactory extends ShapeFactory<LineDrawable> {
   LineDrawable create(Offset position, [Paint? paint]) {
     return LineDrawable(length: 0, position: position, paint: paint);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is LineFactory;
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 }
