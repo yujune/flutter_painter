@@ -397,7 +397,7 @@ class PainterController extends ValueNotifier<PainterControllerValue> {
 
     final newImageBackgroundDrawable =
         (value.background as ImageBackgroundDrawable).copyWith(
-      colorFilter: colorFilter,
+      colorFilter: () => colorFilter,
     );
 
     final action = ReplaceBackgroundDrawableAction(
@@ -440,6 +440,25 @@ class PainterControllerValue {
   ///
   /// The returned list is unmodifiable.
   List<Drawable> get drawables => List.unmodifiable(_drawables);
+
+  bool get hasFreestyle =>
+      drawables.any((element) => element is FreeStyleDrawable);
+  bool get hasErase => drawables.any((element) => element is EraseDrawable);
+  bool get hasText => drawables.any((element) => element is TextDrawable);
+  bool get hasShape => drawables.any((element) => element is ShapeDrawable);
+  bool get hasSticker => drawables.any((element) => element is ImageDrawable);
+  bool get hasBlur => switch (background) {
+        ImageBackgroundDrawable(:var blurRadius) when blurRadius > 0 => true,
+        _ => false
+      };
+  bool get hasCropped => switch (background) {
+        ImageBackgroundDrawable(aspectRatio: var _?) => true,
+        _ => false
+      };
+  bool get hasColorFilter => switch (background) {
+        ImageBackgroundDrawable(colorFilter: var _?) => true,
+        _ => false
+      };
 
   /// Creates a copy of this value but with the given fields replaced with the new values.
   PainterControllerValue copyWith({
