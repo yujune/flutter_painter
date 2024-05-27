@@ -100,13 +100,13 @@ class ImageBackgroundDrawable extends BackgroundDrawable {
     Image? image,
     double? aspectRatio,
     double? blurRadius,
-    ColorFilter? colorFilter,
+    ColorFilter? Function()? colorFilter,
   }) {
     return ImageBackgroundDrawable(
       image: image ?? this.image,
       aspectRatio: aspectRatio ?? this.aspectRatio,
       blurRadius: blurRadius ?? this.blurRadius,
-      colorFilter: colorFilter ?? this.colorFilter,
+      colorFilter: colorFilter != null ? colorFilter() : this.colorFilter,
     );
   }
 }
