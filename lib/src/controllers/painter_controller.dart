@@ -19,6 +19,10 @@ import 'events/selected_object_drawable_removed_event.dart';
 /// * IMPORTANT: *
 /// Each [FlutterPainter] should have its own controller.
 class PainterController extends ValueNotifier<PainterControllerValue> {
+  Queue<ControllerAction> tempPerformedAction = DoubleLinkedQueue();
+
+  bool preview = false;
+
   /// A controller for an event stream which widgets will listen to.
   ///
   /// This will dispatch events that represent actions, such as adding a new text drawable.
@@ -213,8 +217,13 @@ class PainterController extends ValueNotifier<PainterControllerValue> {
   }
 
   void _addAction(ControllerAction action, bool newAction) {
-    performedActions.add(action);
-    if (!newAction) _mergeAction();
+    if (preview) {
+      tempPerformedAction.add(action);
+    } else {
+      performedActions.add(action);
+    }
+    if (!newAction) preview ? _mergeTempAction() : _mergeAction();
+
     unperformedActions.clear();
   }
 
@@ -262,6 +271,15 @@ class PainterController extends ValueNotifier<PainterControllerValue> {
     final groupedAction = second.merge(first);
 
     if (groupedAction != null) performedActions.add(groupedAction);
+  }
+
+  void _mergeTempAction() {
+    if (tempPerformedAction.length < 2) return;
+    final second = tempPerformedAction.removeLast();
+    final first = tempPerformedAction.removeLast();
+    final groupedAction = second.merge(first);
+
+    if (groupedAction != null) tempPerformedAction.add(groupedAction);
   }
 
   /// Dispatches a [AddTextPainterEvent] on `events` stream.
@@ -388,7 +406,9 @@ class PainterController extends ValueNotifier<PainterControllerValue> {
     _addAction(action, true);
   }
 
-  void setBackgroundColorFilter(ColorFilter? colorFilter) {
+  void setBackgroundColorFilter(
+    ColorFilter? colorFilter,
+  ) {
     if (value.background is! ImageBackgroundDrawable) {
       return;
     }
@@ -408,6 +428,40 @@ class PainterController extends ValueNotifier<PainterControllerValue> {
     action.perform(this);
 
     _addAction(action, true);
+  }
+
+  /// Saves all actions performed in preview mode to the main action list.
+  ///
+  /// This function exits the preview mode by setting [preview] to `false`.
+  /// It iterates over all actions stored in the `tempPerformedAction` queue,
+  /// removes each action from there, and adds it to the main action list
+  /// using [_addAction]. This operation ensures that all preview actions
+  /// are committed and can be undone/redone like regular actions.
+  void savePreviewAction() {
+    preview = false;
+    int length = tempPerformedAction.length;
+    for (int i = 0; i < length; i++) {
+      final firstAction = tempPerformedAction.removeFirst();
+      _addAction(firstAction, true);
+    }
+  }
+
+  /// Sets the preview mode for the controller.
+  ///
+  /// When [previewMode] is `true`, the controller enters preview mode.
+  /// Performed actions are stored in the `tempPerformedAction` list.
+  /// When [previewMode] is `false`, the controller exits preview mode and
+  /// unperforms all actions in the `tempPerformedAction` list.
+  /// Useful when you want to preview actions before committing them.
+  void setPreview(bool previewMode) {
+    preview = previewMode;
+    if (!preview) {
+      int length = tempPerformedAction.length;
+      for (int i = length - 1; i >= 0; i--) {
+        final lastAction = tempPerformedAction.removeLast();
+        lastAction.unperform(this);
+      }
+    }
   }
 }
 
